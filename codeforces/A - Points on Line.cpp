@@ -1,0 +1,39 @@
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+#define fr(i,a,b) for(int i = a; i < b; ++i)
+#define rep(i,n) fr(i,0,n)
+#define mp make_pair
+#define N 100100
+typedef pair<int,int> pii;
+typedef long long ll;
+
+ll pts[N];
+int n, d;
+
+int main(){
+	ios::sync_with_stdio(false);
+	cin >> n >> d;
+	rep(i, n) cin >> pts[i];
+	
+	
+	ld resp = 0;
+	rep(i, n){
+		ll nt = pts[i] + d;
+		int ind = upper_bound(pts, pts + n, nt) - pts;
+		--ind;
+//		printf("%d -> %d\n", i, ind);
+		
+		ll qtd = ind - i - 1;
+		if(qtd > 0){
+			resp += ((1+qtd) * qtd)/2;
+		}
+	}
+	cout.precision(7);
+	cout.setf(ios::fixed,ios::floatfield);
+	cout << resp << endl;
+	
+}
+
