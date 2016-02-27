@@ -1,0 +1,165 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define fr(i,a,b) for(int i = a; i < b; ++i)
+#define rep(i,n) fr(i,0,n)
+#define N 5100
+
+int friends[N][N];
+int caso;
+
+vector<int> adj[N];
+vector<int> team[N];
+int has[N];
+int lead[N];
+int m, t;
+
+struct no{
+	int li, ind;
+	bool poe;
+	
+	no(){}
+	no(int time, int index, bool val){
+		li = time;
+		ind = index;
+		poe = val;
+	}
+};
+no pilha[10000000];
+
+bool faz(){
+	int sp = 1;
+	pilha[0] = no(0, 0, true);
+	
+	while(sp){
+		no at = pilha[--sp];
+		int li = at.li;
+		int ind = at.ind;
+		
+		if(at.poe){
+			if(li == t) return true;
+			
+			if(m - team[li].size() > adj[lead[li]].size() - ind) continue;
+	
+			if(team[li].size() == m){
+				bool dm = false;
+				
+				rep(i, m){
+					int guy = team[li][i];
+					int cont = 0;
+					rep(j, adj[guy].size()){
+						if(has[adj[guy][j]] != li) ++cont;
+					}
+					if(cont >= m/2){
+						dm = true;
+						break;
+					}
+				}
+				if(dm) continue;
+				
+				pilha[sp++] = no(li+1, 0, true);
+			}else{ //nenhum caso base
+				
+				int guy = adj[lead[li]][ind];
+				bool dm = false;
+				if(has[guy] == -1){
+					rep(i, team[li].size()){
+						int mate = team[li][i];
+						if(friends[mate][guy] != caso){
+							dm = true;
+							break;
+						}
+					}
+	
+					team[li].push_back(guy);
+					has[guy] = li;
+					
+					at.poe = false;
+					pilha[sp++] = at;
+						
+					if(!dm){
+						pilha[sp++] = no(li, ind+1, true);
+					}
+				}
+			}
+		}else{
+			int guy = adj[lead[li]][ind];
+			team[li].pop_back();
+			has[guy] = -1;
+			
+			pilha[sp++] = no(li, ind + 1, true);
+		}
+	}
+	
+	return false;
+}
+
+int size[N];
+int n;
+string name[N];
+
+int main(){
+	cin.sync_with_stdio(false);
+	cout.sync_with_stdio(false);
+	
+	memset(friends, 0, sizeof friends);
+	caso = 0;
+	
+	while(cin >> t >> n && (n|t)){
+		++caso;
+		
+		m = n / t;
+		rep(i, m)
+			team[i].clear();
+		rep(i, n){
+			adj[i].clear();
+			has[i] = -1;
+		}
+			
+		rep(i, t){
+			cin >> name[i] >> lead[i];
+			--lead[i];
+			has[lead[i]] = i;
+			team[i].push_back(lead[i]);
+		}
+		
+		rep(i, n){
+			int guy, qtd;
+			cin >> guy;
+			--guy;
+			cin >> size[guy] >> qtd;
+			while(qtd--){
+				int f;
+				cin >> f;
+				--f;
+				adj[guy].push_back(f);
+				friends[guy][f] = caso;
+			}
+		}
+		
+		cout << "Case " << caso << ":" << endl;
+		
+		if(m != 1){
+			if(!faz()) throw 1;
+//			if(!resp) throw 1;
+		}
+		
+		int x[60];
+		rep(i, t){
+			memset(x, 0, sizeof x);
+			cout << name[i] << endl;
+			
+			rep(j, m){
+				int mate = team[i][j];
+				++x[size[mate]];
+			}
+			
+			rep(i, 60){
+				if(x[i])
+					cout << i << " " << x[i] << endl;
+			}
+			
+		}
+	}
+}
+
+
