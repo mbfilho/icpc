@@ -1,0 +1,94 @@
+#include <set>
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+#define fr(i,a,b) for(int i = a; i < b; ++i)
+#define rep(i, n) fr(i,0,n)
+
+typedef long long ll;
+typedef long double ld;
+
+set<ll> conj;
+ll a, b;
+
+ll lim[65];
+ll expo(ll num, int k){
+	ll ret = 1;
+	while(k){
+		if(k&1) ret *= num;
+		k >>= 1;
+		num *= num;
+	}
+	return ret;
+}
+
+void pre(){
+	fr(i, 2, 65){
+		ll ini = 2, fim = 1e9;	
+		rep(k, 40){
+			ll mid = (ini+fim)/2;
+			ld power = 1;
+			rep(j, i) power *= mid;
+			if(power <= 1e18) lim[i] = mid, ini = mid;
+			else fim = mid;
+		}
+	}
+}
+
+ll root(ll num, int k){
+	ll ini = 0, fim = min(lim[k], num), resp;
+	while(ini <= fim){
+		ll mid = (ini+fim)/2, power = expo(mid, k);
+		if(power <= num){
+			resp = mid;
+			ini = mid + 1;
+		}else fim = mid - 1;
+	}
+	return resp;
+}
+
+ll dois, tres;
+
+ll faz(int k){
+	ll low = 2, high = lim[k], ret = 0;
+	fr(i, low, high + 1){
+		ll tmp = expo(i, k);
+		if(tmp >= a && tmp <= b){
+			bool inseriu = conj.insert(tmp).second;
+			if(inseriu){
+				ret += k;
+				ll sq = root(tmp, 2), tr = root(tmp, 3);
+				if(sq * sq == tmp) ++dois;
+				if(tr * tr * tr == tmp) ++tres;
+			}
+		}
+	}
+	
+	return ret;
+}
+
+int main(){
+	pre();
+//	rep(i, 65) printf(">%d %lld\n", i, lim[i]);
+	while(scanf("%lld%lld", &a, &b) == 2 && (a|b)){
+		conj.clear();
+		ll total = 0;
+		dois = tres = 0;
+		for(int i = 59; i > 3; --i) total += faz(i);
+		ll pot2 = (root(b,2) - root(a-1,2)) - dois;
+		ll pot3 = (root(b,3) - root(a-1,3)) - tres;
+		total += 2 * pot2 + pot3 * 3;
+		total += (b - a + 1) - pot2 - pot3 - conj.size();
+		printf("%lld\n", total);
+	}
+}
+
+
+
+
+
+
+
+
