@@ -1,0 +1,80 @@
+poj2586 OK
+poj2676 OK
+Poj1860 -
+poj2115 OK
+Poj1459
+poj2002 OK
+Poj1789
+poj2503
+poj1035 OK
+poj1416
+poj3292
+poj2488
+poj1258
+poj1328
+poj1039
+poj1836
+Poj3176
+poj2485
+poj3274
+poj3083
+Poj3295
+poj1094
+poj1260
+poj3259
+poj2253
+poj1321
+poj3080
+POJ3252
+poj1850
+poj2533
+poj2299
+Poj2187
+poj1062
+poj1845
+poj2109
+poj1276
+poj3258
+poj1019
+poj2993
+poj3041
+Poj2635
+poj3026
+poj1113
+poj2965
+Poj2031
+poj3122
+Poj1753
+poj3126
+poj3009
+poj1942
+poj1936
+poj1129
+poj2251
+poj2240
+poj1080
+poj2531
+poj2632
+poj3278
+poj1905
+poj2388
+poj1159
+Poj1068
+poj1426
+Poj1837
+Poj1408
+poj1573
+POJ2151
+poj3253
+poj1125
+poj3436
+poj3267
+Poj3273 OK
+Poj3349
+poj1584
+poj3087
+poj3414
+poj2996
+poj2513
+poj1840
+poj3020
